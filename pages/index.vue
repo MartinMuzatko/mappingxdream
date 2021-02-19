@@ -1,80 +1,61 @@
 <template>
-  <div class="container">
     <div>
-      <Logo />
-      <h1 class="title">
-        mx
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css?family=Cabin|Roboto:400,700|Roboto+Condensed:400,700" rel="stylesheet">
+        <header class="fixed z-10">
+            <nav class="nav fixed w-full flex text-2xl bg-blur">
+                <a class="active block py-4 px-8 hover:text-black text-black" href="#">Home</a>
+                <a class="block text-white py-4 px-8 hover:bg-black hover:text-black" href="#">Home</a>
+                <a class="block text-white py-4 px-8 hover:bg-black hover:text-black" href="#">MX Maps</a>
+                <a class="block text-white py-4 px-8 hover:bg-black hover:text-black" href="#">Members</a>
+            </nav>
+        </header>
+        <article class="flex flex-col items-center justify-center px-8 a-1 bg-cover bg-center w-full py-32">
+            <div class="p-8 w-full md:w-2/3 lg:w-3/5 xl:1/2">
+                <h2 class="mb-4 capped-top-left bg-blur inline-block text-5xl px-8 py-4 pr-8">
+                    {{ page.title }}
+                </h2>
+                <div class="capped-top-left bg-blur px-8 py-4">
+                    <nuxt-content :document="page" />
+                </div>
+            </div>
+        </article>
     </div>
-  </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 
-export default Vue.extend({})
+export default Vue.extend({
+    async asyncData ({ $content }) {
+        const page = await $content('hello').fetch()
+        return {
+            page
+        }
+    },
+    data: () => ({
+        page: null
+    }),
+})
 </script>
 
 <style>
-/* Sample `apply` at-rules with Tailwind CSS
-.container {
-@apply min-h-screen flex justify-center items-center text-center mx-auto;
-}
-*/
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+.a-1 {
+    background-image: url(https://i.imgur.com/hksOZUJ.png);
 }
 
-.title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
+.bg-blur {
+    backdrop-filter: blur(5px);
 }
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
+.nav {
+    background-image: linear-gradient(10deg, #000000BB, #00000099, #00000033);
+}
+.nav a.active, a:hover {
+    background-image: linear-gradient(135deg, transparent 1rem, white 1rem, white)
 }
 
-.links {
-  padding-top: 15px;
+.capped-top-left {
+    background-image: linear-gradient(135deg, transparent 1rem, #FFFFFF99 1rem, #FFFFFFEE, #FFFFFF33);
 }
 </style>
